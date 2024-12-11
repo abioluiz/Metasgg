@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cumprir Metas</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(135deg, #ff7eb3, #ff758c);
+            color: #fff;
+            margin: 0;
+            padding: 0;
+        }
+        header {
+            background: #ff477e;
+            padding: 15px;
+            text-align: center;
+            font-size: 24px;
+            font-weight: bold;
+            text-transform: uppercase;
+        }
+        .container {
+            max-width: 600px;
+            margin: 40px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 10px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        .input-group {
+            margin-bottom: 15px;
+        }
+        .input-group label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+        .input-group input {
+            width: 100%;
+            padding: 10px;
+            border: none;
+            border-radius: 5px;
+            background: rgba(255, 255, 255, 0.8);
+            font-size: 16px;
+            color: #333;
+        }
+        .meta-item {
+            margin: 15px 0;
+            display: flex;
+            align-items: center;
+        }
+        .meta-item input {
+            margin-right: 10px;
+            transform: scale(1.2);
+        }
+        .btn {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            text-align: center;
+            background: #ff477e;
+            color: #fff;
+            border: none;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+        .btn:hover {
+            background: #ff7593;
+        }
+        footer {
+            text-align: center;
+            margin-top: 20px;
+            color: #fff;
+            opacity: 0.8;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        Cumprir Metas
+    </header>
+    <div class="container">
+        <h2>Escolha sua meta:</h2>
+        <form id="metaForm">
+            <div class="input-group">
+                <label for="nick">Nick</label>
+                <input type="text" id="nick" placeholder="Digite seu Nick">
+            </div>
+            <div class="input-group">
+                <label for="rg">RG</label>
+                <input type="text" id="rg" placeholder="Digite seu RG">
+            </div>
+            <div class="input-group">
+                <label for="imagem">Link da Imagem da Meta</label>
+                <input type="text" id="imagem" placeholder="Cole o link da imagem">
+            </div>
+            <div class="meta-item">
+                <input type="radio" name="meta" value="Assalto a Banco" id="meta1">
+                <label for="meta1">Assalto a Banco</label>
+            </div>
+            <div class="meta-item">
+                <input type="radio" name="meta" value="Ação" id="meta2">
+                <label for="meta2">Ação</label>
+            </div>
+            <div class="meta-item">
+                <input type="radio" name="meta" value="Assalto Refém" id="meta3">
+                <label for="meta3">Assalto Refém</label>
+            </div>
+            <div class="meta-item">
+                <input type="radio" name="meta" value="CX" id="meta4">
+                <label for="meta4">CX</label>
+            </div>
+            <button type="button" class="btn" onclick="enviarMeta()">Cumprir Meta</button>
+        </form>
+    </div>
+    <footer>
+        Desenvolvido por Loyt Lindo - Design Interativo e Impactante
+    </footer>
+
+    <script>
+        function enviarMeta() {
+            const nick = document.getElementById('nick').value.trim();
+            const rg = document.getElementById('rg').value.trim();
+            const imagem = document.getElementById('imagem').value.trim();
+            const metaSelecionada = document.querySelector('input[name="meta"]:checked');
+
+            if (!nick || !rg || !imagem || !metaSelecionada) {
+                alert('Por favor, preencha todos os campos e selecione uma meta para cumprir.');
+                return;
+            }
+
+            const meta = metaSelecionada.value;
+
+            // Configuração do webhook do Discord
+            const webhookURL = "https://discord.com/api/webhooks/1316230409545187338/jwVFOMNNRxgc6cZx8W1A-wgi-dvDWnVRx2s_GbdQ1FtlEvWwqNpcnHur39xcEDAuWCIr";
+            const mensagem = {
+                content: `**Meta Cumprida!**\n**Nick:** ${nick}\n**RG:** ${rg}\n**Meta:** ${meta}\n**Imagem:** ${imagem}`
+            };
+
+            fetch(webhookURL, {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify(mensagem)
+            }).then(response => {
+                if (response.ok) {
+                    alert('Meta cumprida enviada com sucesso!');
+                } else {
+                    alert('Erro ao enviar a meta. Tente novamente.');
+                }
+            }).catch(error => {
+                console.error('Erro:', error);
+                alert('Erro ao enviar a meta.');
+            });
+        }
+    </script>
+</body>
+</html>
